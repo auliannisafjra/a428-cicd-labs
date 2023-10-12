@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression {
-                    params.PROCEED == 'true'
+                    params.PROCEED == true
                 }
             }
             steps {
