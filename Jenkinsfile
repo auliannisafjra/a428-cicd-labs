@@ -19,7 +19,7 @@ pipeline {
         stage('Manual Approval') {
             steps {
                 input message: 'Lanjutkan ke tahap Deploy?', parameters: [
-                    booleanParam(defaultValue: true, description: 'Tekan true untuk melanjutkan dan false untuk mengakhiri', name: 'PROCEED')
+                    booleanParam(defaultValue: true, description: 'Klik Proceed untuk melanjutkan dan Abord untuk mengakhiri', name: 'PROCEED')
                 ]
             }
         }
