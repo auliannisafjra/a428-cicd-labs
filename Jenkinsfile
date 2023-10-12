@@ -18,16 +18,10 @@ pipeline {
         }
         stage('Manual Approval') {
             steps {
-                input message: 'Lanjutkan ke tahap Deploy?', parameters: [
-                    booleanParam(description: 'Klik Proceed untuk melanjutkan dan Abord untuk mengakhiri', name: 'PROCEED')
-                ]
+                input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk melanjutkan)'
             }
         }
         stage('Deploy') {
-            when {
-                expression {
-                    params.PROCEED == true
-                }
             steps {
                 sh './jenkins/scripts/deliver.sh'
                 script {
@@ -36,7 +30,6 @@ pipeline {
                     echo "Sudah 1 menit, proses dihentikan."
                 }
                 sh './jenkins/scripts/kill.sh'
-            }
             }
         }
     }
