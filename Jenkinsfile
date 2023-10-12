@@ -28,7 +28,6 @@ pipeline {
                 expression {
                     params.PROCEED == true
                 }
-            }
             steps {
                 sh './jenkins/scripts/deliver.sh'
                 script {
@@ -37,6 +36,7 @@ pipeline {
                     echo "Sudah 1 menit, proses dihentikan."
                 }
                 sh './jenkins/scripts/kill.sh'
+            }
             }
         }
     }
