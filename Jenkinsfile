@@ -16,10 +16,26 @@ pipeline {
                 sh './jenkins/scripts/test.sh' 
             }
         }
+        stage('Manual Approval') {
+            steps {
+                input message: 'Lanjutkan ke tahap Deploy?', parameters: [
+                    booleanParam(defaultValue: true, description: 'Tekan true untuk melanjutkan dan false untuk mengakhiri', name: 'PROCEED')
+                ]
+            }
+        }
         stage('Deploy') {
+            when {
+                expression {
+                    params.PROCEED == 'true'
+                }
+            }
             steps {
                 sh './jenkins/scripts/deliver.sh'
-                input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
+                script {
+                    echo "Memberikan jeda 1 menit untuk menghentikan proses..."
+                    sleep time: 60, unit: 'SECONDS'
+                    echo "Sudah 1 menit, proses dihentikan."
+                }
                 sh './jenkins/scripts/kill.sh'
             }
         }
